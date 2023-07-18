@@ -12,14 +12,10 @@ export default function CarouselComponent() {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const carouselItems = [
         {
+            
             image: Image1,
             description: 'AI Development',
             headline: 'Transforming Industries with Artificial Intelligence',
-        },
-        {
-            image: Image2,
-            description: 'Metaverse Development',
-            headline: 'Building Immersive Virtual Experiences',
         },
         {
             image: Image3,
@@ -30,7 +26,15 @@ export default function CarouselComponent() {
             image: Image4,
             description: 'Mobile App Development',
             headline: 'Empowering Businesses with Mobile Applications',
+
+            
         },
+        {
+            image: Image2,
+            description: 'Metaverse Development',
+            headline: 'Building Immersive Virtual Experiences',
+        },
+       
     ]
 
     return (

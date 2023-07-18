@@ -52,7 +52,7 @@ function Header() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Company Name
+          #Software Solutions
           </Typography>
           {isSmallScreen && (
             <IconButton
