@@ -1,64 +1,70 @@
 import React, { useState, useEffect } from 'react';
-import { Paper, Typography } from '@mui/material';
-import './CircleNavigation.css'; // Import the custom CSS file
-
-const ITServiceItems = [
-  {
-    title: 'Web Development',
-    description: 'Creating responsive and dynamic websites for your business needs.',
-    icon: 'fa fa-globe',
-  },
-  {
-    title: 'Mobile App Development',
-    description: 'Developing custom mobile applications for Android and iOS platforms.',
-    icon: 'fa fa-mobile',
-  },
-  {
-    title: 'Cloud Computing',
-    description: 'Providing scalable and secure cloud solutions to host your applications.',
-    icon: 'fa fa-cloud',
-  },
-  {
-    title: 'Cybersecurity',
-    description: 'Protecting your digital assets from cyber threats and attacks.',
-    icon: 'fa fa-shield',
-  },
-  {
-    title: 'Data Analytics',
-    description: 'Analyzing data to gain valuable insights for better decision-making.',
-    icon: 'fa fa-chart-line',
-  },
-  {
-    title: 'IT Consulting',
-    description: 'Offering expert advice and guidance to optimize your IT infrastructure.',
-    icon: 'fa fa-lightbulb',
-  },
-  {
-    title: 'Network Solutions',
-    description: 'Designing and managing efficient and secure network systems.',
-    icon: 'fa fa-network-wired',
-  },
-  {
-    title: 'E-commerce Solutions',
-    description: 'Creating online stores and payment gateways for your business.',
-    icon: 'fa fa-shopping-cart',
-  },
-];
+import './CircleNavigation.css';
+import { FaClock, FaComments, FaUser, FaTags, FaUpload, FaBriefcase } from 'react-icons/fa';
 
 const CircleNavigation = () => {
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeDot, setActiveDot] = useState(1);
+
+  useEffect(() => {
+    const radius = 200;
+    const container = document.querySelector('.dotCircle');
+    const fields = document.querySelectorAll('.itemDot');
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    const step = (2 * Math.PI) / fields.length;
+
+    fields.forEach((field, index) => {
+      const angle = step * index;
+      const x = Math.round(width / 2 + radius * Math.cos(angle) - field.clientWidth / 2);
+      const y = Math.round(height / 2 + radius * Math.sin(angle) - field.clientHeight / 2);
+
+      field.style.left = `${x}px`;
+      field.style.top = `${y}px`;
+    });
+  }, []);
+
+  const dotClickHandler = (dataTab) => {
+    setActiveDot(dataTab);
+    const itemDots = document.querySelectorAll('.itemDot');
+    const cirItems = document.querySelectorAll('.CirItem');
+    const i = dataTab;
+
+    document.querySelector('.dotCircle').style.transform = `rotate(${360 - (i - 1) * 36}deg)`;
+    document.querySelector('.dotCircle').classList.add('activeRotate'); // Add the activeRotate class
+
+    itemDots.forEach((itemDot) => {
+      const tab = parseInt(itemDot.dataset.tab, 10);
+      if (tab === i) {
+        itemDot.classList.add('active');
+      } else {
+        itemDot.classList.remove('active');
+      }
+    });
+
+    cirItems.forEach((cirItem) => {
+      const cirItemIndex = parseInt(cirItem.dataset.cirItemIndex, 10);
+      if (cirItemIndex === i) {
+        cirItem.classList.add('active');
+      } else {
+        cirItem.classList.remove('active');
+      }
+    });
+
+    // Remove the activeRotate class after the transition ends
+    setTimeout(() => {
+      document.querySelector('.dotCircle').classList.remove('activeRotate');
+    }, 2000); // The same duration as the rotation transition in CSS
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveTab((prevTab) => (prevTab % ITServiceItems.length) + 1);
+      setActiveDot((prevActiveDot) => (prevActiveDot % 6) + 1);
     }, 5000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
-
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
 
   return (
     <section className="iq-features">
@@ -68,34 +74,21 @@ const CircleNavigation = () => {
           <div className="col-lg-6 col-md-12">
             <div className="holderCircle">
               <div className="round"></div>
-              <div className="dotCircle">
-                {ITServiceItems.map((item, index) => (
-                  <span
-                    key={index + 1}
-                    className={`itemDot ${activeTab === index + 1 ? 'active' : ''}`}
-                    data-tab={index + 1}
-                    onClick={() => handleTabClick(index + 1)}
-                  >
-                    <i className={item.icon}></i>
-                    <span className="forActive"></span>
-                  </span>
-                ))}
+              <div className="dotCircle" style={{ transform: `rotate(${360 - (activeDot - 1) * 36}deg)` }}>
+                <InteractiveDot icon={<FaClock />} dataTab={1} activeDot={activeDot} onClick={dotClickHandler} />
+                <InteractiveDot icon={<FaComments />} dataTab={2} activeDot={activeDot} onClick={dotClickHandler} />
+                <InteractiveDot icon={<FaUser />} dataTab={3} activeDot={activeDot} onClick={dotClickHandler} />
+                <InteractiveDot icon={<FaTags />} dataTab={4} activeDot={activeDot} onClick={dotClickHandler} />
+                <InteractiveDot icon={<FaUpload />} dataTab={5} activeDot={activeDot} onClick={dotClickHandler} />
+                <InteractiveDot icon={<FaBriefcase />} dataTab={6} activeDot={activeDot} onClick={dotClickHandler} />
               </div>
               <div className="contentCircle">
-                {ITServiceItems.map((item, index) => (
-                  <div
-                    key={index + 1}
-                    className={`CirItem title-box ${activeTab === index + 1 ? 'active' : ''}`}
-                  >
-                    <Typography variant="h2" className="title">
-                      {item.title}
-                    </Typography>
-                    <Typography variant="body1" margin="0">
-                      {item.description}
-                    </Typography>
-                    <i className={item.icon}></i>
-                  </div>
-                ))}
+                <ContentItem title="Automate" description="tfhdfghfghfghfgjtyjtyhfg ftgfthtyjyutg rthtryjdrhrt tyjdrytyjuty tjtyjtyjtdy" icon={<FaClock />} index={1} active={activeDot === 1} />
+                <ContentItem title="Chat" description="tfhdfghfghfghfgjtyjtyhfg ftgfthtyjyutg rthtryjdrhrt tyjdrytyjuty tjtyjtyjtdy" icon={<FaComments />} index={2} active={activeDot === 2} />
+                <ContentItem title="Responses" description="tfhdfghfghfghfgjtyjtyhfg ftgfthtyjyutg rthtryjdrhrt tyjdrytyjuty tjtyjtyjtdy" icon={<FaUser />} index={3} active={activeDot === 3} />
+                <ContentItem title="Tags" description="tfhdfghfghfghfgjtyjtyhfg ftgfthtyjyutg rthtryjdrhrt tyjdrytyjuty tjtyjtyjtdy" icon={<FaTags />} index={4} active={activeDot === 4} />
+                <ContentItem title="Sharing" description="tfhdfghfghfghfgjtyjtyhfg ftgfthtyjyutg rthtryjdrhrt tyjdrytyjuty tjtyjtyjtdy" icon={<FaUpload />} index={5} active={activeDot === 5} />
+                <ContentItem title="Support" description="tfhdfghfghfghfgjtyjtyhfg ftgfthtyjyutg rthtryjdrhrt tyjdrytyjuty tjtyjtyjtdy" icon={<FaBriefcase />} index={6} active={activeDot === 6} />
               </div>
             </div>
           </div>
@@ -103,6 +96,29 @@ const CircleNavigation = () => {
         </div>
       </div>
     </section>
+  );
+};
+
+const InteractiveDot = ({ icon, dataTab, activeDot, onClick }) => {
+  return (
+    <span
+      className={`itemDot ${activeDot === dataTab ? 'active' : ''}`}
+      data-tab={dataTab}
+      onClick={() => onClick(dataTab)}
+    >
+      {icon}
+      <span className="forActive"></span>
+    </span>
+  );
+};
+
+const ContentItem = ({ title, description, icon, index, active }) => {
+  return (
+    <div className={`CirItem title-box ${active ? 'active' : ''}`} data-cir-item-index={index} >
+      <h2 className="title">
+        <span>{title}</span>
+      </h2>
+    </div>
   );
 };
 

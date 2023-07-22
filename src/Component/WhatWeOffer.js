@@ -40,7 +40,7 @@ function WhatWeOffer() {
   return (
     <Container maxWidth="lg" sx={{ paddingTop: '4rem' ,paddingBottom:'2rem'}}>
       <Typography variant="h2" align="center" gutterBottom>
-        What we <span style={{ color: '#a3d4f6' }}>Offer</span>
+        What we <span style={{ color: '#ED2939' }}>Offer</span>
       </Typography>
       <Grid container spacing={2} justifyContent="center">
         {offerItems.map((item, index) => (
@@ -55,13 +55,13 @@ function WhatWeOffer() {
                 alignItems: 'center',
                 padding: '2rem',
                 backgroundColor: '#ffffff',
-                borderLeft: '2px solid #a3d4f6',
+                borderLeft: '2px solid #ED2939',
                 boxShadow: '0 0 10px #cccccc',
                 position: 'relative',
                 zIndex: 1,
                 transition: 'all 0.3s ease-in-out',
                 '&:hover': {
-                  backgroundColor: '#a3d4f6',
+                  backgroundColor: '#ED2939',
                   color: '#ffffff',
                   boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
                   transform: 'scale(1.05)',
